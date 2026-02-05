@@ -1,5 +1,33 @@
+* {
+  box-sizing: border-box;
+}
 
-You sent
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #121212;
+  font-family: Arial, sans-serif;
+}
+
+.calculator {
+  width: 320px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.screen {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: right;
+}
+
 #expression {
   font-size: 14px;
   color: #aaa;
@@ -7,7 +35,8 @@ You sent
 }
 
 #display {
-  font-size: 28px;
+  font-size: 32px;
+  word-wrap: break-word;
 }
 
 .buttons {
@@ -17,13 +46,13 @@ You sent
 }
 
 button {
-  padding: 16px;
-  font-size: 16px;
+  height: 60px;
+  font-size: 18px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   background: #333;
-  color: white;
+  color: #fff;
 }
 
 button:hover {
@@ -36,18 +65,30 @@ button:hover {
 
 .equal {
   background: #00c897;
-  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .clear {
   background: #ff4d4d;
 }
-You sent
-.undo {
+
+.delete {
   background: #ffa502;
-  color: black;
+  color: #000;
 }
 
 .zero {
   grid-column: span 2;
 }
+
+/* Responsive */
+@media (max-width: 400px) {
+  .calculator {
+    width: 95%;
+  }
+
+  button {
+    height: 55px;
+  }
+}
+
