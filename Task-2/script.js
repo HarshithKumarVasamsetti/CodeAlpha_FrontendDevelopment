@@ -1,43 +1,76 @@
-
-let expression = "";
 const display = document.getElementById("display");
 const expressionDisplay = document.getElementById("expression");
+const buttons = document.querySelectorAll("button");
+
+let expression = "";
+let current = "";
+
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const value = button.innerText;
+
+    if (!isNaN(value) || value === ".") {
+      appendNumber(value);
+    } else if (["+", "−", "×", "÷"].includes(value)) {
+      appendOperator(value);
+    } else if (value === "=") {
+      calculate();
+    } else if (value === "AC") {
+      clearAll();
+    } else if (value === "⌫") {
+      deleteLast();
+    }
+  });
+});
 
 function appendNumber(num) {
-  if (display.innerText === "0" && num !== ".") {
-    display.innerText = num;
-  } else {
-    display.innerText += num;
-  }
+  if (num === "." && current.includes(".")) return;
+  current += num;
+  display.innerText = current;
 }
 
 function appendOperator(op) {
-  expression += display.innerText + " " + op + " ";
+  if (current === "") return;
+
+  expression += current + " " + convertOperator(op) + " ";
   expressionDisplay.innerText = expression;
+  current = "";
   display.innerText = "0";
 }
 
 function calculate() {
-  expression += display.innerText;
+  if (current === "") return;
+
+  expression += current;
   try {
-    display.innerText = Function("return " + expression)();
+    const result = eval(expression);
+    display.innerText = result;
+    expression = "";
+    expressionDisplay.innerText = "";
+    current = result.toString();
   } catch {
     display.innerText = "Error";
+    current = "";
+    expression = "";
   }
-  expression = "";
-  expressionDisplay.innerText = "";
 }
 
 function clearAll() {
+  current = "";
   expression = "";
   display.innerText = "0";
   expressionDisplay.innerText = "";
 }
 
-function undo() {
-  if (display.innerText.length > 1) {
-    display.innerText = display.innerText.slice(0, -1);
-  } else {
-    display.innerText = "0";
-  }
+function deleteLast() {
+  current = current.slice(0, -1);
+  display.innerText = current || "0";
 }
+
+function convertOperator(op) {
+  if (op === "×") return "*";
+  if (op === "÷") return "/";
+  if (op === "−") return "-";
+  return op;
+}
+
